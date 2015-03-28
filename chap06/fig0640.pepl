@@ -1,0 +1,67 @@
+-------------------------------------------------------------------------------
+      Object
+Addr  code   Symbol   Mnemon  Operand       Comment
+-------------------------------------------------------------------------------
+             ;File: fig0640.pep
+             ;Computer Systems, Fourth edition
+             ;Figure 6.40
+             ;
+0000  040003          BR      main          
+             ;
+             ;******* main ()
+             guess:   .EQUATE 0             ;local variable #2d
+0003  680002 main:    SUBSP   2,i           ;allocate #guess
+0006  410037          STRO    msgIn,d       ;cout << "Pick a number 0..3: "
+0009  330000          DECI    guess,s       ;cin >> Guess
+000C  CB0000          LDX     guess,s       ;switch (Guess)
+000F  1D              ASLX                  ;addresses occupy two bytes
+0010  050013          BR      guessJT,x     
+0013  001B   guessJT: .ADDRSS case0         
+0015  0021            .ADDRSS case1         
+0017  0027            .ADDRSS case2         
+0019  002D            .ADDRSS case3         
+001B  41004C case0:   STRO    msg0,d        ;cout << "Not close"
+001E  040030          BR      endCase       ;break
+0021  410056 case1:   STRO    msg1,d        ;cout << "Close"
+0024  040030          BR      endCase       ;break
+0027  41005C case2:   STRO    msg2,d        ;cout << "Right on"
+002A  040030          BR      endCase       ;break
+002D  410065 case3:   STRO    msg3,d        ;cout << "Too high"
+0030  50000A endCase: CHARO   '\n',i        ;count << endl
+0033  600002          ADDSP   2,i           ;deallocate #guess
+0036  00              STOP                  
+0037  506963 msgIn:   .ASCII  "Pick a number 0..3: \x00" 
+      6B2061 
+      206E75 
+      6D6265 
+      722030 
+      2E2E33 
+      3A2000 
+004C  4E6F74 msg0:    .ASCII  "Not close\x00" 
+      20636C 
+      6F7365 
+      00     
+0056  436C6F msg1:    .ASCII  "Close\x00"   
+      736500 
+005C  526967 msg2:    .ASCII  "Right on\x00" 
+      687420 
+      6F6E00 
+0065  546F6F msg3:    .ASCII  "Too high\x00" 
+      206869 
+      676800 
+006E                  .END                  
+-------------------------------------------------------------------------------
+
+
+Symbol table
+--------------------------------------
+Symbol    Value        Symbol    Value
+--------------------------------------
+case0     001B         case1     0021
+case2     0027         case3     002D
+endCase   0030         guess     0000
+guessJT   0013         main      0003
+msg0      004C         msg1      0056
+msg2      005C         msg3      0065
+msgIn     0037         
+--------------------------------------

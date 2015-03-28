@@ -1,0 +1,40 @@
+-------------------------------------------------------------------------------
+      Object
+Addr  code   Symbol   Mnemon  Operand       Comment
+-------------------------------------------------------------------------------
+             ;File: fig0618.pep
+             ;Computer Systems, Fourth edition
+             ;Figure 6.18
+             ;
+0000  04001F          BR      main          
+             ;
+             ;******* void printTri ()
+0003  410016 printTri:STRO    msg1,d        ;cout << "*"
+0006  50000A          CHARO   '\n',i        ;   << endl
+0009  410018          STRO    msg2,d        ;cout << "**"
+000C  50000A          CHARO   '\n',i        ;   << endl
+000F  41001B          STRO    msg3,d        ;cout << "***"
+0012  50000A          CHARO   '\n',i        ;   << endl
+0015  58              RET0                  
+0016  2A00   msg1:    .ASCII  "*\x00"       
+0018  2A2A00 msg2:    .ASCII  "**\x00"      
+001B  2A2A2A msg3:    .ASCII  "***\x00"     
+      00     
+             ;
+             ;******* int main ()
+001F  160003 main:    CALL    printTri      ;printTri ()
+0022  160003          CALL    printTri      ;printTri ()
+0025  160003          CALL    printTri      ;printTri ()
+0028  00              STOP                  
+0029                  .END                  
+-------------------------------------------------------------------------------
+
+
+Symbol table
+--------------------------------------
+Symbol    Value        Symbol    Value
+--------------------------------------
+main      001F         msg1      0016
+msg2      0018         msg3      001B
+printTri  0003         
+--------------------------------------

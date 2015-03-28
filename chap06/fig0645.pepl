@@ -1,0 +1,75 @@
+-------------------------------------------------------------------------------
+      Object
+Addr  code   Symbol   Mnemon  Operand       Comment
+-------------------------------------------------------------------------------
+             ;File: fig0645.pep
+             ;Computer Systems, Fourth edition
+             ;Figure 6.45
+             ;
+0000  040008          BR      main          
+             first:   .EQUATE 0             ;struct field #1c
+             last:    .EQUATE 1             ;struct field #1c
+             age:     .EQUATE 2             ;struct field #2d
+             gender:  .EQUATE 4             ;struct field #1c
+0003  000000 bill:    .BLOCK  5             ;global variable #first #last #age 
+      0000   
+             ;
+             ;******* main ()
+0008  C80000 main:    LDX     first,i       ;cin >> bill.first
+000B  4D0003          CHARI   bill,x        
+000E  C80001          LDX     last,i        ;   >>bill.last
+0011  4D0003          CHARI   bill,x        
+0014  C80002          LDX     age,i         ;   >>bill.age
+0017  350003          DECI    bill,x        
+001A  C80004          LDX     gender,i      ;   >>bill.gender
+001D  4D0003          CHARI   bill,x        
+0020  41005A          STRO    msg0,d        ;cout << "Initials: "
+0023  C80000          LDX     first,i       ;   << bill.first
+0026  550003          CHARO   bill,x        
+0029  C80001          LDX     last,i        ;   << bill.last
+002C  550003          CHARO   bill,x        
+002F  50000A          CHARO   '\n',i        ;   << endl
+0032  410065          STRO    msg1,d        ;cout << "Age: "
+0035  C80002          LDX     age,i         ;   << bill.age
+0038  3D0003          DECO    bill,x        
+003B  50000A          CHARO   '\n',i        ;   << endl;
+003E  41006B          STRO    msg2,d        ;cout << "Gender: "
+0041  C80004          LDX     gender,i      ;if (bill.gender == 'm')
+0044  C00000          LDA     0,i           
+0047  D50003          LDBYTEA bill,x        
+004A  B0006D          CPA     'm',i         
+004D  0C0056          BRNE    else          
+0050  410074          STRO    msg3,d        ;   cout << "male\n"
+0053  040059          BR      endIf         
+0056  41007A else:    STRO    msg4,d        ;   cout << "female\n"
+0059  00     endIf:   STOP                  
+005A  496E69 msg0:    .ASCII  "Initials: \x00" 
+      746961 
+      6C733A 
+      2000   
+0065  416765 msg1:    .ASCII  "Age: \x00"   
+      3A2000 
+006B  47656E msg2:    .ASCII  "Gender: \x00" 
+      646572 
+      3A2000 
+0074  6D616C msg3:    .ASCII  "male\n\x00"  
+      650A00 
+007A  66656D msg4:    .ASCII  "female\n\x00" 
+      616C65 
+      0A00   
+0082                  .END                  
+-------------------------------------------------------------------------------
+
+
+Symbol table
+--------------------------------------
+Symbol    Value        Symbol    Value
+--------------------------------------
+age       0002         bill      0003
+else      0056         endIf     0059
+first     0000         gender    0004
+last      0001         main      0008
+msg0      005A         msg1      0065
+msg2      006B         msg3      0074
+msg4      007A         
+--------------------------------------

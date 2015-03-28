@@ -1,0 +1,33 @@
+-------------------------------------------------------------------------------
+      Object
+Addr  code   Symbol   Mnemon  Operand       Comment
+-------------------------------------------------------------------------------
+             ;File: fig0515.pep
+             ;Computer Systems, Fourth edition
+             ;Figure 5.15
+             ;
+0000  04000D          BR      main          ;Branch around data
+0003  0000   num:     .BLOCK  2             ;Storage for one integer #2d
+0005  202B20 msg:     .ASCII  " + 1 = \x00" 
+      31203D 
+      2000   
+             ;
+000D  310003 main:    DECI    num,d         ;Get the number
+0010  390003          DECO    num,d         ;and output it
+0013  410005          STRO    msg,d         ;Output ' + 1 = '
+0016  C10003          LDA     num,d         ;A <- the number
+0019  700001          ADDA    1,i           ;Add one to it
+001C  E10003          STA     num,d         ;Store the sum
+001F  390003          DECO    num,d         ;Output the sum
+0022  00              STOP                  
+0023                  .END                  
+-------------------------------------------------------------------------------
+
+
+Symbol table
+--------------------------------------
+Symbol    Value        Symbol    Value
+--------------------------------------
+main      000D         msg       0005
+num       0003         
+--------------------------------------

@@ -1,0 +1,39 @@
+-------------------------------------------------------------------------------
+      Object
+Addr  code   Symbol   Mnemon  Operand       Comment
+-------------------------------------------------------------------------------
+             ;File: fig0612.pep
+             ;Computer Systems, Fourth edition
+             ;Figure 6.12
+             ;
+0000  040007          BR      main          
+0003  0000   cop:     .BLOCK  2             ;global variable #2d
+0005  0000   driver:  .BLOCK  2             ;global variable #2d
+             ;
+0007  C00000 main:    LDA     0,i           ;cop = 0
+000A  E10003          STA     cop,d         
+000D  C00028          LDA     40,i          ;driver = 40
+0010  E10005          STA     driver,d      
+0013  C10003 do:      LDA     cop,d         ;   cop += 25
+0016  700019          ADDA    25,i          
+0019  E10003          STA     cop,d         
+001C  C10005          LDA     driver,d      ;   driver += 20
+001F  700014          ADDA    20,i          
+0022  E10005          STA     driver,d      
+0025  C10003 while:   LDA     cop,d         ;while (cop < driver)
+0028  B10005          CPA     driver,d      
+002B  080013          BRLT    do            
+002E  390003          DECO    cop,d         ;cout << cop
+0031  00              STOP                  
+0032                  .END                  
+-------------------------------------------------------------------------------
+
+
+Symbol table
+--------------------------------------
+Symbol    Value        Symbol    Value
+--------------------------------------
+cop       0003         do        0013
+driver    0005         main      0007
+while     0025         
+--------------------------------------

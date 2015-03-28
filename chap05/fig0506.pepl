@@ -1,0 +1,17 @@
+-------------------------------------------------------------------------------
+      Object
+Addr  code   Mnemon  Operand       Comment
+-------------------------------------------------------------------------------
+             ;File: fig0506.pep
+             ;Computer Systems, Fourth Edition
+             ;Figure 5.6
+             ;
+0000  49000D CHARI   0x000D,d      ;Input first character
+0003  49000E CHARI   0x000E,d      ;Input second character
+0006  51000E CHARO   0x000E,d      ;Output second character
+0009  51000D CHARO   0x000D,d      ;Output first character
+000C  00     STOP                  
+000D  00     .BLOCK  1             ;Storage for first char
+000E  00     .BLOCK  1             ;Storage for second char
+000F         .END                  
+-------------------------------------------------------------------------------

@@ -1,0 +1,63 @@
+-------------------------------------------------------------------------------
+      Object
+Addr  code   Symbol   Mnemon  Operand       Comment
+-------------------------------------------------------------------------------
+             ;File: fig0623.pep
+             ;Computer Systems, Fourth edition
+             ;Figure 6.23
+             ;
+0000  040025          BR      main          
+             ;
+             ;******* void printBar (int n)
+             n:       .EQUATE 4             ;formal parameter #2d
+             k:       .EQUATE 0             ;local variable #2d
+0003  680002 printBar:SUBSP   2,i           ;allocate #k
+0006  C00001          LDA     1,i           ;for (k = 1
+0009  E30000          STA     k,s           
+000C  B30004 for1:    CPA     n,s           ;k <= n
+000F  100021          BRGT    endFor1       
+0012  50002A          CHARO   '*',i         ;   cout << '*'
+0015  C30000          LDA     k,s           ;k++)
+0018  700001          ADDA    1,i           
+001B  E30000          STA     k,s           
+001E  04000C          BR      for1          
+0021  50000A endFor1: CHARO   '\n',i        ;cout << endl
+0024  5A              RET2                  ;deallocate #k, pop retAddr
+             ;
+             ;******* main ()
+             numPts:  .EQUATE 4             ;local variable #2d
+             value:   .EQUATE 2             ;local variable #2d
+             j:       .EQUATE 0             ;local variable #2d
+0025  680006 main:    SUBSP   6,i           ;allocate #numPts #value #j
+0028  330004          DECI    numPts,s      ;cin >> numPts
+002B  C00001          LDA     1,i           ;for (j = 1
+002E  E30000          STA     j,s           
+0031  B30004 for2:    CPA     numPts,s      ;j <= numPts
+0034  100055          BRGT    endFor2       
+0037  330002          DECI    value,s       ;   cin >> value
+003A  C30002          LDA     value,s       ;   call by value
+003D  E3FFFE          STA     -2,s          
+0040  680002          SUBSP   2,i           ;   push #n
+0043  160003          CALL    printBar      ;   push retAddr
+0046  600002          ADDSP   2,i           ;   pop #n
+0049  C30000          LDA     j,s           ;j++)
+004C  700001          ADDA    1,i           
+004F  E30000          STA     j,s           
+0052  040031          BR      for2          
+0055  600006 endFor2: ADDSP   6,i           ;deallocate #j #value #numPts
+0058  00              STOP                  
+0059                  .END                  
+-------------------------------------------------------------------------------
+
+
+Symbol table
+--------------------------------------
+Symbol    Value        Symbol    Value
+--------------------------------------
+endFor1   0021         endFor2   0055
+for1      000C         for2      0031
+j         0000         k         0000
+main      0025         n         0004
+numPts    0004         printBar  0003
+value     0002         
+--------------------------------------

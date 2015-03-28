@@ -1,0 +1,39 @@
+-------------------------------------------------------------------------------
+      Object
+Addr  code   Symbol   Mnemon  Operand       Comment
+-------------------------------------------------------------------------------
+             ;File: fig0608.pep
+             ;Computer Systems, Fourth edition
+             ;Figure 6.8
+             ;
+0000  040003          BR      main          
+             limit:   .EQUATE 100           ;constant
+             num:     .EQUATE 0             ;local variable #2d
+             ;
+0003  680002 main:    SUBSP   2,i           ;allocate #num
+0006  330000          DECI    num,s         ;cin >> num
+0009  C30000 if:      LDA     num,s         ;if (num >= limit)
+000C  B00064          CPA     limit,i       
+000F  080018          BRLT    else          
+0012  41001F          STRO    msg1,d        ;   cout << "high"
+0015  04001B          BR      endIf         ;else
+0018  410024 else:    STRO    msg2,d        ;   cout << "low"
+001B  600002 endIf:   ADDSP   2,i           ;deallocate #num
+001E  00              STOP                  
+001F  686967 msg1:    .ASCII  "high\x00"    
+      6800   
+0024  6C6F77 msg2:    .ASCII  "low\x00"     
+      00     
+0028                  .END                  
+-------------------------------------------------------------------------------
+
+
+Symbol table
+--------------------------------------
+Symbol    Value        Symbol    Value
+--------------------------------------
+else      0018         endIf     001B
+if        0009         limit     0064
+main      0003         msg1      001F
+msg2      0024         num       0000
+--------------------------------------

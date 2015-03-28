@@ -1,0 +1,32 @@
+-------------------------------------------------------------------------------
+      Object
+Addr  code   Symbol   Mnemon  Operand       Comment
+-------------------------------------------------------------------------------
+             ;File: fig0606.pep
+             ;Computer Systems, Fourth edition
+             ;Figure 6.6
+             ;
+0000  040003          BR      main          
+             number:  .EQUATE 0             ;local variable #2d
+             ;
+0003  680002 main:    SUBSP   2,i           ;allocate #number
+0006  330000          DECI    number,s      ;cin >> number
+0009  C30000 if:      LDA     number,s      ;if (number < 0)
+000C  0E0016          BRGE    endIf         
+000F  C30000          LDA     number,s      ;   number = -number
+0012  1A              NEGA                  
+0013  E30000          STA     number,s      
+0016  3B0000 endIf:   DECO    number,s      ;cout << number
+0019  600002          ADDSP   2,i           ;deallocate #number
+001C  00              STOP                  
+001D                  .END                  
+-------------------------------------------------------------------------------
+
+
+Symbol table
+--------------------------------------
+Symbol    Value        Symbol    Value
+--------------------------------------
+endIf     0016         if        0009
+main      0003         number    0000
+--------------------------------------

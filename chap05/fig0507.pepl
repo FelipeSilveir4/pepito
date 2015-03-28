@@ -1,0 +1,20 @@
+-------------------------------------------------------------------------------
+      Object
+Addr  code   Mnemon  Operand       Comment
+-------------------------------------------------------------------------------
+             ;File: fig0507.pep
+             ;Computer Systems, Fourth Edition
+             ;Figure 5.7
+             ;
+0000  C10011 LDA     0x0011,d      ;A <- first number
+0003  710013 ADDA    0x0013,d      ;Add the two numbers
+0006  A10015 ORA     0x0015,d      ;Convert sum to character
+0009  F10010 STBYTEA 0x0010,d      ;Store the character
+000C  510010 CHARO   0x0010,d      ;Output the character
+000F  00     STOP                  
+0010  00     .BLOCK  1             ;Character to output
+0011  000A   .WORD   10            ;Decimal 5
+0013  001C   .WORD   28            ;Decimal 3
+0015  0030   .WORD   0x0030        ;Mask for ASCII char
+0017         .END                  
+-------------------------------------------------------------------------------

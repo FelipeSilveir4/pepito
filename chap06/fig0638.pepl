@@ -1,0 +1,87 @@
+-------------------------------------------------------------------------------
+      Object
+Addr  code   Symbol   Mnemon  Operand       Comment
+-------------------------------------------------------------------------------
+             ;File: fig0638.pep
+             ;Computer Systems, Fourth edition
+             ;Figure 6.38
+             ;
+0000  04004C          BR      main          
+             ;
+             ;******* getVect (int v[], int& n)
+             v:       .EQUATE 6             ;formal parameter #2h
+             n:       .EQUATE 4             ;formal parameter #2h
+             j:       .EQUATE 0             ;local variable #2d
+0003  680002 getVect: SUBSP   2,i           ;allocate #j
+0006  340004          DECI    n,sf          ;cin >> n
+0009  C80000          LDX     0,i           ;for (j = 0
+000C  EB0000          STX     j,s           
+000F  BC0004 for1:    CPX     n,sf          ;   j < n
+0012  0E0025          BRGE    endFor1       
+0015  1D              ASLX                  ;   an integer is two bytes
+0016  370006          DECI    v,sxf         ;   cin >> v[j]
+0019  CB0000          LDX     j,s           ;   j++)
+001C  780001          ADDX    1,i           
+001F  EB0000          STX     j,s           
+0022  04000F          BR      for1          
+0025  5A     endFor1: RET2                  ;pop #j and retAddr
+             ;
+             ;******* putVect (int v[], int n)
+             v2:      .EQUATE 6             ;formal parameter #2h
+             n2:      .EQUATE 4             ;formal parameter #2d
+             j2:      .EQUATE 0             ;local variable #2d
+0026  680002 putVect: SUBSP   2,i           ;allocate #j2
+0029  C80000          LDX     0,i           ;for (j = 0
+002C  EB0000          STX     j2,s          
+002F  BB0004 for2:    CPX     n2,s          ;   j < n
+0032  0E0048          BRGE    endFor2       
+0035  1D              ASLX                  ;   an integer is two bytes
+0036  3F0006          DECO    v2,sxf        ;   cout << v[j]
+0039  500020          CHARO   ' ',i         ;      << ' '
+003C  CB0000          LDX     j2,s          ;   i++)
+003F  780001          ADDX    1,i           
+0042  EB0000          STX     j2,s          
+0045  04002F          BR      for2          
+0048  50000A endFor2: CHARO   '\n',i        ;cout << endl
+004B  5A              RET2                  ;pop #j2 and retAddr
+             ;
+             ;******* main ()
+             vector:  .EQUATE 2             ;local variable #2d8a
+             numItms: .EQUATE 0             ;local variable #2d
+004C  680012 main:    SUBSP   18,i          ;allocate #vector #numItms
+004F  02              MOVSPA                ;push address of vector
+0050  700002          ADDA    vector,i      
+0053  E3FFFE          STA     -2,s          
+0056  02              MOVSPA                ;push address of numItms
+0057  700000          ADDA    numItms,i     
+005A  E3FFFC          STA     -4,s          
+005D  680004          SUBSP   4,i           ;push #v #n
+0060  160003          CALL    getVect       ;getVect (vector, numItms)
+0063  600004          ADDSP   4,i           ;pop #n #v
+0066  02              MOVSPA                ;push address of vector
+0067  700002          ADDA    vector,i      
+006A  E3FFFE          STA     -2,s          
+006D  C30000          LDA     numItms,s     ;push value of numItms
+0070  E3FFFC          STA     -4,s          
+0073  680004          SUBSP   4,i           ;push #v2 #n2
+0076  160026          CALL    putVect       ;putVect (vector, numItms)
+0079  600004          ADDSP   4,i           ;pop #n2 #v2
+007C  600012          ADDSP   18,i          ;deallocate #numItms #vector
+007F  00              STOP                  
+0080                  .END                  
+-------------------------------------------------------------------------------
+
+
+Symbol table
+--------------------------------------
+Symbol    Value        Symbol    Value
+--------------------------------------
+endFor1   0025         endFor2   0048
+for1      000F         for2      002F
+getVect   0003         j         0000
+j2        0000         main      004C
+n         0004         n2        0004
+numItms   0000         putVect   0026
+v         0006         v2        0006
+vector    0002         
+--------------------------------------

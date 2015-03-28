@@ -1,0 +1,74 @@
+-------------------------------------------------------------------------------
+      Object
+Addr  code   Symbol   Mnemon  Operand       Comment
+-------------------------------------------------------------------------------
+             ;File: fig0632.pep
+             ;Computer Systems
+             ;Figure 6.32, Fourth edition
+             ;
+0000  040023          BR      main          
+             true:    .EQUATE 1             
+             false:   .EQUATE 0             
+             ;
+             LOWER:   .EQUATE 21            ;const int
+             UPPER:   .EQUATE 65            ;const int
+             ;
+             ;******* bool inRange (int a)
+             retVal:  .EQUATE 2             ;returned value #2d
+             a:       .EQUATE 0             ;formal parameter #2d
+0003  C00015 inRange: LDA     LOWER,i       ;if ((LOWER <= a)
+0006  B30000 if:      CPA     a,s           
+0009  10001C          BRGT    else          
+000C  C30000          LDA     a,s           ;   && (a <= UPPER))
+000F  B00041          CPA     UPPER,i       
+0012  10001C          BRGT    else          
+0015  C00001 then:    LDA     true,i        ;   return true
+0018  E30002          STA     retVal,s      
+001B  58              RET0                  
+001C  C00000 else:    LDA     false,i       ;   return false
+001F  E30002          STA     retVal,s      
+0022  58              RET0                  
+             ;
+             ;******* main ()
+             age:     .EQUATE 0             ;local variable #2d
+0023  680002 main:    SUBSP   2,i           ;allocate #age
+0026  330000          DECI    age,s         ;cin >> age
+0029  C30000 if2:     LDA     age,s         ;if (
+002C  E3FFFC          STA     -4,s          ;store the value of age
+002F  680004          SUBSP   4,i           ;push #retVal #a
+0032  160003          CALL    inRange       ;   (inRange (age))
+0035  600004          ADDSP   4,i           ;pop #a #retVal
+0038  C3FFFE          LDA     -2,s          ;load retVal
+003B  0A0044          BREQ    else2         ;branch if retVal == false (i.e. 0)
+003E  41004B then2:   STRO    msg1,d        ;   cout << "Qualified\n"
+0041  040047          BR      endif2        
+0044  410056 else2:   STRO    msg2,d        ;   cout << "Unqualified\n"
+0047  600002 endif2:  ADDSP   2,i           ;deallocate #age
+004A  00              STOP                  
+004B  517561 msg1:    .ASCII  "Qualified\n\x00" 
+      6C6966 
+      696564 
+      0A00   
+0056  556E71 msg2:    .ASCII  "Unqualified\n\x00" 
+      75616C 
+      696669 
+      65640A 
+      00     
+0063                  .END                  
+-------------------------------------------------------------------------------
+
+
+Symbol table
+--------------------------------------
+Symbol    Value        Symbol    Value
+--------------------------------------
+LOWER     0015         UPPER     0041
+a         0000         age       0000
+else      001C         else2     0044
+endif2    0047         false     0000
+if        0006         if2       0029
+inRange   0003         main      0023
+msg1      004B         msg2      0056
+retVal    0002         then      0015
+then2     003E         true      0001
+--------------------------------------

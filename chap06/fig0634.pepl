@@ -1,0 +1,52 @@
+-------------------------------------------------------------------------------
+      Object
+Addr  code   Symbol   Mnemon  Operand       Comment
+-------------------------------------------------------------------------------
+             ;File: fig0634.pep
+             ;Computer Systems, Fourth edition
+             ;Figure 6.34
+             ;
+0000  04000D          BR      main          
+0003  000000 vector:  .BLOCK  8             ;global variable #2d4a
+      000000 
+      0000   
+000B  0000   j:       .BLOCK  2             ;global variable #2d
+             ;
+             ;******* main ()
+000D  C80000 main:    LDX     0,i           ;for (j = 0
+0010  E9000B          STX     j,d           
+0013  B80004 for1:    CPX     4,i           ;   j < 4
+0016  0E0029          BRGE    endFor1       
+0019  1D              ASLX                  ;   an integer is two bytes
+001A  350003          DECI    vector,x      ;   cin >> vector[j]
+001D  C9000B          LDX     j,d           ;   j++)
+0020  780001          ADDX    1,i           
+0023  E9000B          STX     j,d           
+0026  040013          BR      for1          
+0029  C80003 endFor1: LDX     3,i           ;for (j = 3
+002C  E9000B          STX     j,d           
+002F  B80000 for2:    CPX     0,i           ;   j >= 0
+0032  08004E          BRLT    endFor2       
+0035  39000B          DECO    j,d           ;   cout << j
+0038  500020          CHARO   ' ',i         ;      << ' '
+003B  1D              ASLX                  ;   an integer is two bytes
+003C  3D0003          DECO    vector,x      ;      << vector[j]
+003F  50000A          CHARO   '\n',i        ;      << endl
+0042  C9000B          LDX     j,d           ;   j--)
+0045  880001          SUBX    1,i           
+0048  E9000B          STX     j,d           
+004B  04002F          BR      for2          
+004E  00     endFor2: STOP                  
+004F                  .END                  
+-------------------------------------------------------------------------------
+
+
+Symbol table
+--------------------------------------
+Symbol    Value        Symbol    Value
+--------------------------------------
+endFor1   0029         endFor2   004E
+for1      0013         for2      002F
+j         000B         main      000D
+vector    0003         
+--------------------------------------

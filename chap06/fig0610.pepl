@@ -1,0 +1,31 @@
+-------------------------------------------------------------------------------
+      Object
+Addr  code   Symbol   Mnemon  Operand       Comment
+-------------------------------------------------------------------------------
+             ;File: fig0610.pep
+             ;Computer Systems, Fourth edition
+             ;Figure 6.10
+             ;
+0000  040004          BR      main          
+0003  00     letter:  .BLOCK  1             ;global variable #1c
+             ;
+0004  490003 main:    CHARI   letter,d      ;cin >> letter
+0007  C00000          LDA     0x0000,i      
+000A  D10003 while:   LDBYTEA letter,d      ;while (letter != '*')
+000D  B0002A          CPA     '*',i         
+0010  0A001C          BREQ    endWh         
+0013  510003          CHARO   letter,d      ;   cout << letter
+0016  490003          CHARI   letter,d      ;   cin >> letter
+0019  04000A          BR      while         
+001C  00     endWh:   STOP                  
+001D                  .END                  
+-------------------------------------------------------------------------------
+
+
+Symbol table
+--------------------------------------
+Symbol    Value        Symbol    Value
+--------------------------------------
+endWh     001C         letter    0003
+main      0004         while     000A
+--------------------------------------

@@ -1,0 +1,42 @@
+-------------------------------------------------------------------------------
+      Object
+Addr  code   Symbol   Mnemon  Operand       Comment
+-------------------------------------------------------------------------------
+             ;File: fig0604.pep
+             ;Computer Systems, Fourth edition
+             ;Figure 6.4
+             ;
+0000  040003          BR      main          
+             bonus:   .EQUATE 5             ;constant
+             exam1:   .EQUATE 4             ;local variable #2d
+             exam2:   .EQUATE 2             ;local variable #2d
+             score:   .EQUATE 0             ;local variable #2d
+             ;
+0003  680006 main:    SUBSP   6,i           ;allocate #exam1 #exam2 #score
+0006  330004          DECI    exam1,s       ;cin >> exam1
+0009  330002          DECI    exam2,s       ;   >> exam2
+000C  C30004          LDA     exam1,s       ;score = (exam1
+000F  730002          ADDA    exam2,s       ;   + exam2)
+0012  1E              ASRA                  ;   / 2
+0013  700005          ADDA    bonus,i       ;   + bonus
+0016  E30000          STA     score,s       
+0019  410026          STRO    msg,d         ;cout << "score = "
+001C  3B0000          DECO    score,s       ;   << score
+001F  50000A          CHARO   '\n',i        ;   << endl
+0022  600006          ADDSP   6,i           ;deallocate #score #exam2 #exam1
+0025  00              STOP                  
+0026  73636F msg:     .ASCII  "score = \x00" 
+      726520 
+      3D2000 
+002F                  .END                  
+-------------------------------------------------------------------------------
+
+
+Symbol table
+--------------------------------------
+Symbol    Value        Symbol    Value
+--------------------------------------
+bonus     0005         exam1     0004
+exam2     0002         main      0003
+msg       0026         score     0000
+--------------------------------------

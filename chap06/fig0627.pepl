@@ -1,0 +1,91 @@
+-------------------------------------------------------------------------------
+      Object
+Addr  code   Symbol   Mnemon  Operand       Comment
+-------------------------------------------------------------------------------
+             ;File: fig0627.pep
+             ;Computer Systems, Fourth edition
+             ;Figure 6.27
+             ;
+0000  04003C          BR      main          
+0003  0000   a:       .BLOCK  2             ;global variable #2d
+0005  0000   b:       .BLOCK  2             ;global variable #2d
+             ;
+             ;******* void swap (int& r, int& s)
+             r:       .EQUATE 6             ;formal parameter #2h
+             s:       .EQUATE 4             ;formal parameter #2h
+             temp:    .EQUATE 0             ;local variable #2d
+0007  680002 swap:    SUBSP   2,i           ;allocate #temp
+000A  C40006          LDA     r,sf          ;temp = r
+000D  E30000          STA     temp,s        
+0010  C40004          LDA     s,sf          ;r = s
+0013  E40006          STA     r,sf          
+0016  C30000          LDA     temp,s        ;s = temp
+0019  E40004          STA     s,sf          
+001C  5A              RET2                  ;deallocate #temp, pop retAddr
+             ;
+             ;******* void order (int& x, int& y)
+             x:       .EQUATE 4             ;formal parameter #2h
+             y:       .EQUATE 2             ;formal parameter #2h
+001D  C40004 order:   LDA     x,sf          ;if (x > y)
+0020  B40002          CPA     y,sf          
+0023  06003B          BRLE    endIf         
+0026  C30004          LDA     x,s           ;   push x
+0029  E3FFFE          STA     -2,s          
+002C  C30002          LDA     y,s           ;   push y
+002F  E3FFFC          STA     -4,s          
+0032  680004          SUBSP   4,i           ;   push #r #s
+0035  160007          CALL    swap          ;   swap (x, y)
+0038  600004          ADDSP   4,i           ;   pop #s #r
+003B  58     endIf:   RET0                  ;pop retAddr
+             
+             ;
+             ;******* main ()
+003C  41006D main:    STRO    msg1,d        ;cout << "Enter an integer: "
+003F  310003          DECI    a,d           ;cin >> a
+0042  41006D          STRO    msg1,d        ;cout << "Enter an integer: "
+0045  310005          DECI    b,d           ;cin >> b
+0048  C00003          LDA     a,i           ;push the address of a
+004B  E3FFFE          STA     -2,s          
+004E  C00005          LDA     b,i           ;push the address of b
+0051  E3FFFC          STA     -4,s          
+0054  680004          SUBSP   4,i           ;push #x #y
+0057  16001D          CALL    order         ;order (a, b)
+005A  600004 ra1:     ADDSP   4,i           ;pop #y #x
+005D  410080          STRO    msg2,d        ;cout << "Ordered they are: "
+0060  390003          DECO    a,d           ;     << a
+0063  410093          STRO    msg3,d        ;     << ", "
+0066  390005          DECO    b,d           ;     << b
+0069  50000A          CHARO   '\n',i        ;     << endl
+006C  00              STOP                  
+006D  456E74 msg1:    .ASCII  "Enter an integer: \x00" 
+      657220 
+      616E20 
+      696E74 
+      656765 
+      723A20 
+      00     
+0080  4F7264 msg2:    .ASCII  "Ordered they are: \x00" 
+      657265 
+      642074 
+      686579 
+      206172 
+      653A20 
+      00     
+0093  2C2000 msg3:    .ASCII  ", \x00"      
+0096                  .END                  
+-------------------------------------------------------------------------------
+
+
+Symbol table
+--------------------------------------
+Symbol    Value        Symbol    Value
+--------------------------------------
+a         0003         b         0005
+endIf     003B         main      003C
+msg1      006D         msg2      0080
+msg3      0093         order     001D
+r         0006         ra1       005A
+s         0004         swap      0007
+temp      0000         x         0004
+y         0002         
+--------------------------------------

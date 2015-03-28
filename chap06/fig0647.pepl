@@ -1,0 +1,76 @@
+-------------------------------------------------------------------------------
+      Object
+Addr  code   Symbol   Mnemon  Operand       Comment
+-------------------------------------------------------------------------------
+             ;File: fig0647.pep
+             ;Computer Systems, Fourth edition
+             ;Figure 6.47
+             ;
+0000  040003          BR      main          
+             data:    .EQUATE 0             ;struct field #2d
+             next:    .EQUATE 2             ;struct field #2h
+             ;
+             ;******* main ()
+             first:   .EQUATE 4             ;local variable #2h
+             p:       .EQUATE 2             ;local variable #2h
+             value:   .EQUATE 0             ;local variable #2d
+0003  680006 main:    SUBSP   6,i           ;allocate #first #p #value
+0006  C00000          LDA     0,i           ;first = 0
+0009  E30004          STA     first,s       
+000C  330000          DECI    value,s       ;cin >> value
+000F  C30000 while:   LDA     value,s       ;while (value != -9999)
+0012  B0D8F1          CPA     -9999,i       
+0015  0A003F          BREQ    endWh         
+0018  C30004          LDA     first,s       ;   p = first
+001B  E30002          STA     p,s           
+001E  C00004          LDA     4,i           ;   first = new node
+0021  160067          CALL    new           ;   allocate #data #next
+0024  EB0004          STX     first,s       
+0027  C30000          LDA     value,s       ;   first->data = value
+002A  C80000          LDX     data,i        
+002D  E70004          STA     first,sxf     
+0030  C30002          LDA     p,s           ;   first->next = p
+0033  C80002          LDX     next,i        
+0036  E70004          STA     first,sxf     
+0039  330000          DECI    value,s       ;   cin >> value
+003C  04000F          BR      while         
+003F  C30004 endWh:   LDA     first,s       ;for (p = first
+0042  E30002          STA     p,s           
+0045  C30002 for:     LDA     p,s           ;   p != 0
+0048  B00000          CPA     0,i           
+004B  0A0063          BREQ    endFor        
+004E  C80000          LDX     data,i        ;   cout << p->data
+0051  3F0002          DECO    p,sxf         
+0054  500020          CHARO   ' ',i         ;      << ' '
+0057  C80002          LDX     next,i        ;   p = p->next)
+005A  C70002          LDA     p,sxf         
+005D  E30002          STA     p,s           
+0060  040045          BR      for           
+0063  600006 endFor:  ADDSP   6,i           ;deallocate #value #p #first
+0066  00              STOP                  
+             ;
+             ;******* operator new
+             ;        Precondition: A contains number of bytes
+             ;        Postcondition: X contains pointer to bytes
+0067  C90071 new:     LDX     hpPtr,d       ;returned pointer
+006A  710071          ADDA    hpPtr,d       ;allocate from heap
+006D  E10071          STA     hpPtr,d       ;update hpPtr
+0070  58              RET0                  
+0071  0073   hpPtr:   .ADDRSS heap          ;address of next free byte
+0073  00     heap:    .BLOCK  1             ;first byte in the heap
+0074                  .END                  
+-------------------------------------------------------------------------------
+
+
+Symbol table
+--------------------------------------
+Symbol    Value        Symbol    Value
+--------------------------------------
+data      0000         endFor    0063
+endWh     003F         first     0004
+for       0045         heap      0073
+hpPtr     0071         main      0003
+new       0067         next      0002
+p         0002         value     0000
+while     000F         
+--------------------------------------

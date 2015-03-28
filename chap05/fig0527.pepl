@@ -1,0 +1,39 @@
+-------------------------------------------------------------------------------
+      Object
+Addr  code   Symbol   Mnemon  Operand       Comment
+-------------------------------------------------------------------------------
+             ;File: fig0527.pep
+             ;Computer Systems, Fourth edition
+             ;Figure 5.27
+             ;
+0000  31001D main:    DECI    exam1,d       ;cin >> exam1
+0003  31001F          DECI    exam2,d       ;   >> exam2
+0006  C1001D          LDA     exam1,d       ;score = (exam1
+0009  71001F          ADDA    exam2,d       ;   + exam2)
+000C  1E              ASRA                  ;   / 2
+000D  700005          ADDA    bonus,i       ;   + bonus
+0010  E10021          STA     score,d       
+0013  410023          STRO    msg,d         ;cout << "score = "
+0016  390021          DECO    score,d       ;   << score
+0019  50000A          CHARO   '\n',i        ;   << endl
+001C  00              STOP                  
+             ;
+             bonus:   .EQUATE 5             ;constant
+001D  0000   exam1:   .BLOCK  2             ;global variable #2d
+001F  0000   exam2:   .BLOCK  2             ;global variable #2d
+0021  0000   score:   .BLOCK  2             ;global variable #2d
+0023  73636F msg:     .ASCII  "score = \x00" 
+      726520 
+      3D2000 
+002C                  .END                  
+-------------------------------------------------------------------------------
+
+
+Symbol table
+--------------------------------------
+Symbol    Value        Symbol    Value
+--------------------------------------
+bonus     0005         exam1     001D
+exam2     001F         main      0000
+msg       0023         score     0021
+--------------------------------------

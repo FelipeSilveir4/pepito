@@ -1,0 +1,28 @@
+-------------------------------------------------------------------------------
+      Object
+Addr  code   Mnemon  Operand       Comment
+-------------------------------------------------------------------------------
+             ;File: fig0601.pep
+             ;Computer Systems, Fourth Edition
+             ;Figure 6.1
+             ;
+0000  C00042 LDA     'B',i         ;push B 
+0003  F3FFFF STBYTEA -1,s          
+0006  C0004D LDA     'M',i         ;push M 
+0009  F3FFFE STBYTEA -2,s          
+000C  C00057 LDA     'W',i         ;push W 
+000F  F3FFFD STBYTEA -3,s          
+0012  C0014F LDA     335,i         ;push 335 
+0015  E3FFFB STA     -5,s          
+0018  C00069 LDA     'i',i         ;push i 
+001B  F3FFFA STBYTEA -6,s          
+001E  680006 SUBSP   6,i           ;6 bytes on the run-time stack 
+0021  530005 CHARO   5,s           ;output B 
+0024  530004 CHARO   4,s           ;output M 
+0027  530003 CHARO   3,s           ;output W 
+002A  3B0001 DECO    1,s           ;output 335 
+002D  530000 CHARO   0,s           ;output i 
+0030  600006 ADDSP   6,i           ;deallocate stack storage
+0033  00     STOP                  
+0034         .END                  
+-------------------------------------------------------------------------------

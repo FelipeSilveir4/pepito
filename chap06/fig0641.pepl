@@ -1,0 +1,71 @@
+-------------------------------------------------------------------------------
+      Object
+Addr  code   Symbol   Mnemon  Operand       Comment
+-------------------------------------------------------------------------------
+             ;File: fig0641.pep
+             ;Computer Systems, Fourth edition
+             ;Figure 6.41
+             ;
+0000  040009          BR      main          
+0003  0000   a:       .BLOCK  2             ;global variable #2d
+0005  0000   b:       .BLOCK  2             ;global variable #2d
+0007  0000   c:       .BLOCK  2             ;global variable #2d
+             ;
+             ;******* main ()
+0009  C00002 main:    LDA     2,i           ;a = new int
+000C  16006A          CALL    new           ;#a
+000F  E90003          STX     a,d           
+0012  C00005          LDA     5,i           ;*a = 5
+0015  E20003          STA     a,n           
+0018  C00002          LDA     2,i           ;b = new int
+001B  16006A          CALL    new           ;#b
+001E  E90005          STX     b,d           
+0021  C00003          LDA     3,i           ;*b = 3
+0024  E20005          STA     b,n           
+0027  C10003          LDA     a,d           ;c = a
+002A  E10007          STA     c,d           
+002D  C10005          LDA     b,d           ;a = b
+0030  E10003          STA     a,d           
+0033  C00002          LDA     2,i           ;*a = 2 + *c
+0036  720007          ADDA    c,n           
+0039  E20003          STA     a,n           
+003C  410058          STRO    msg0,d        ;cout << "*a = "
+003F  3A0003          DECO    a,n           ;   << *a
+0042  50000A          CHARO   '\n',i        ;   << endl
+0045  41005E          STRO    msg1,d        ;cout << "*b = "
+0048  3A0005          DECO    b,n           ;   << *b
+004B  50000A          CHARO   '\n',i        ;   << endl
+004E  410064          STRO    msg2,d        ;cout << "*c = "
+0051  3A0007          DECO    c,n           ;   << *c
+0054  50000A          CHARO   '\n',i        ;   << endl
+0057  00              STOP                  
+0058  2A6120 msg0:    .ASCII  "*a = \x00"   
+      3D2000 
+005E  2A6220 msg1:    .ASCII  "*b = \x00"   
+      3D2000 
+0064  2A6320 msg2:    .ASCII  "*c = \x00"   
+      3D2000 
+             ;
+             ;******* operator new
+             ;        Precondition: A contains number of bytes
+             ;        Postcondition: X contains pointer to bytes
+006A  C90074 new:     LDX     hpPtr,d       ;returned pointer
+006D  710074          ADDA    hpPtr,d       ;allocate from heap
+0070  E10074          STA     hpPtr,d       ;update hpPtr
+0073  58              RET0                  
+0074  0076   hpPtr:   .ADDRSS heap          ;address of next free byte
+0076  00     heap:    .BLOCK  1             ;first byte in the heap
+0077                  .END                  
+-------------------------------------------------------------------------------
+
+
+Symbol table
+--------------------------------------
+Symbol    Value        Symbol    Value
+--------------------------------------
+a         0003         b         0005
+c         0007         heap      0076
+hpPtr     0074         main      0009
+msg0      0058         msg1      005E
+msg2      0064         new       006A
+--------------------------------------

@@ -1,0 +1,42 @@
+-------------------------------------------------------------------------------
+      Object
+Addr  code   Symbol   Mnemon  Operand       Comment
+-------------------------------------------------------------------------------
+             ;File: fig0614.pep
+             ;Computer Systems, Fourth edition
+             ;Figure 6.14
+             ;
+0000  040003          BR      main          
+             j:       .EQUATE 0             ;local variable #2d
+             ;
+0003  680002 main:    SUBSP   2,i           ;allocate #j
+0006  C00000          LDA     0,i           ;for (j = 0
+0009  E30000          STA     j,s           
+000C  B00003 for:     CPA     3,i           ;   j < 3
+000F  0E0027          BRGE    endFor        
+0012  410034          STRO    msg,d         ;   cout << "j = "
+0015  3B0000          DECO    j,s           ;      << j
+0018  50000A          CHARO   '\n',i        ;      << endl
+001B  C30000          LDA     j,s           ;   j++)
+001E  700001          ADDA    1,i           
+0021  E30000          STA     j,s           
+0024  04000C          BR      for           
+0027  410034 endFor:  STRO    msg,d         ;cout << "j = "
+002A  3B0000          DECO    j,s           ;   << j
+002D  50000A          CHARO   '\n',i        ;   << endl
+0030  600002          ADDSP   2,i           ;deallocate #j
+0033  00              STOP                  
+0034  6A203D msg:     .ASCII  "j = \x00"    
+      2000   
+0039                  .END                  
+-------------------------------------------------------------------------------
+
+
+Symbol table
+--------------------------------------
+Symbol    Value        Symbol    Value
+--------------------------------------
+endFor    0027         for       000C
+j         0000         main      0003
+msg       0034         
+--------------------------------------

@@ -1,0 +1,73 @@
+-------------------------------------------------------------------------------
+      Object
+Addr  code   Symbol   Mnemon  Operand       Comment
+-------------------------------------------------------------------------------
+             ;File: fig0629.pep
+             ;Computer Systems, Fourth edition
+             ;Figure 6.29
+             ;
+0000  04000E          BR      main          
+             ;
+             ;******* void rect (int& p, int w, int h)
+             p:       .EQUATE 6             ;formal parameter #2h
+             w:       .EQUATE 4             ;formal parameter #2d
+             h:       .EQUATE 2             ;formal parameter #2d
+0003  C30004 rect:    LDA     w,s           ;p = (w + h) * 2
+0006  730002          ADDA    h,s           
+0009  1C              ASLA                  
+000A  E40006          STA     p,sf          
+000D  58     endIf:   RET0                  ;pop retAddr
+             ;
+             ;******* main ()
+             perim:   .EQUATE 4             ;local variable #2d
+             width:   .EQUATE 2             ;local variable #2d
+             height:  .EQUATE 0             ;local variable #2d
+000E  680006 main:    SUBSP   6,i           ;allocate #perim #width #height
+0011  410046          STRO    msg1,d        ;cout << "Enter width: "
+0014  330002          DECI    width,s       ;cin >> width
+0017  410054          STRO    msg2,d        ;cout << "Enter height: "
+001A  330000          DECI    height,s      ;cin >> height
+001D  02              MOVSPA                ;push the address of perim
+001E  700004          ADDA    perim,i       
+0021  E3FFFE          STA     -2,s          
+0024  C30002          LDA     width,s       ;push the value of width
+0027  E3FFFC          STA     -4,s          
+002A  C30000          LDA     height,s      ;push the value of height
+002D  E3FFFA          STA     -6,s          
+0030  680006          SUBSP   6,i           ;push #p #w #h
+0033  160003          CALL    rect          ;rect (perim, width, height)
+0036  600006 ra1:     ADDSP   6,i           ;pop #h #w #p
+0039  410063          STRO    msg3,d        ;cout << "perim = "
+003C  3B0004          DECO    perim,s       ;     << perim
+003F  50000A          CHARO   '\n',i        ;     << endl
+0042  600006          ADDSP   6,i           ;deallocate #height #width #perim
+0045  00              STOP                  
+0046  456E74 msg1:    .ASCII  "Enter width: \x00" 
+      657220 
+      776964 
+      74683A 
+      2000   
+0054  456E74 msg2:    .ASCII  "Enter height: \x00" 
+      657220 
+      686569 
+      676874 
+      3A2000 
+0063  706572 msg3:    .ASCII  "perim = \x00" 
+      696D20 
+      3D2000 
+006C                  .END                  
+-------------------------------------------------------------------------------
+
+
+Symbol table
+--------------------------------------
+Symbol    Value        Symbol    Value
+--------------------------------------
+endIf     000D         h         0002
+height    0000         main      000E
+msg1      0046         msg2      0054
+msg3      0063         p         0006
+perim     0004         ra1       0036
+rect      0003         w         0004
+width     0002         
+--------------------------------------

@@ -1,0 +1,87 @@
+-------------------------------------------------------------------------------
+      Object
+Addr  code   Symbol   Mnemon  Operand       Comment
+-------------------------------------------------------------------------------
+             ;File: fig0625.pep
+             ;Computer Systems, Fourth edition
+             ;Figure 6.25
+             ;
+0000  040065          BR      main          
+             ;
+             ;******* int binomCoeff (int n, int k)
+             retVal:  .EQUATE 10            ;returned value #2d
+             n:       .EQUATE 8             ;formal parameter #2d
+             k:       .EQUATE 6             ;formal parameter #2d
+             y1:      .EQUATE 2             ;local variable #2d
+             y2:      .EQUATE 0             ;local variable #2d
+0003  680004 binCoeff:SUBSP   4,i           ;allocate #y1 #y2
+0006  C30006 if:      LDA     k,s           ;if ((k == 0)
+0009  0A0015          BREQ    then          
+000C  C30008          LDA     n,s           ;|| (n == k))
+000F  B30006          CPA     k,s           
+0012  0C001C          BRNE    else          
+0015  C00001 then:    LDA     1,i           ;return 1
+0018  E3000A          STA     retVal,s      
+001B  5C              RET4                  ;deallocate #y2 #y1, pop retAddr
+001C  C30008 else:    LDA     n,s           ;push n - 1
+001F  800001          SUBA    1,i           
+0022  E3FFFC          STA     -4,s          
+0025  C30006          LDA     k,s           ;push k
+0028  E3FFFA          STA     -6,s          
+002B  680006          SUBSP   6,i           ;push #retVal #n #k
+002E  160003          CALL    binCoeff      ;binomCoeff (n - 1, k)
+0031  600006 ra2:     ADDSP   6,i           ;pop #k #n #retVal
+0034  C3FFFE          LDA     -2,s          ;y1 = binomCoeff (n - 1, k)
+0037  E30002          STA     y1,s          
+003A  C30008          LDA     n,s           ;push n - 1
+003D  800001          SUBA    1,i           
+0040  E3FFFC          STA     -4,s          
+0043  C30006          LDA     k,s           ;push k - 1
+0046  800001          SUBA    1,i           
+0049  E3FFFA          STA     -6,s          
+004C  680006          SUBSP   6,i           ;push #retVal #n #k
+004F  160003          CALL    binCoeff      ;binomCoeff (n - 1, k - 1)
+0052  600006 ra3:     ADDSP   6,i           ;pop #k #n #retVal
+0055  C3FFFE          LDA     -2,s          ;y2 = binomCoeff (n - 1, k - 1)
+0058  E30000          STA     y2,s          
+005B  C30002          LDA     y1,s          ;return y1 + y2
+005E  730000          ADDA    y2,s          
+0061  E3000A          STA     retVal,s      
+0064  5C     endIf:   RET4                  ;deallocate #y2 #y1, pop retAddr
+             ;
+             ;******* main ()
+0065  410084 main:    STRO    msg,d         ;cout << "binCoeff (3, 1) = "
+0068  C00005          LDA     5,i           ;push 3
+006B  E3FFFC          STA     -4,s          
+006E  C00003          LDA     3,i           ;push 1
+0071  E3FFFA          STA     -6,s          
+0074  680006          SUBSP   6,i           ;push #retVal #n #k
+0077  160003          CALL    binCoeff      ;binomCoeff (3, 1)
+007A  600006 ra1:     ADDSP   6,i           ;pop #k #n #retVal
+007D  3BFFFE          DECO    -2,s          ;<< binCoeff (3, 1)
+0080  50000A          CHARO   '\n',i        ;cout << endl
+0083  00              STOP                  
+0084  62696E msg:     .ASCII  "binCoeff (5, 3) = \x00" 
+      436F65 
+      666620 
+      28352C 
+      203329 
+      203D20 
+      00     
+0097                  .END                  
+-------------------------------------------------------------------------------
+
+
+Symbol table
+--------------------------------------
+Symbol    Value        Symbol    Value
+--------------------------------------
+binCoeff  0003         else      001C
+endIf     0064         if        0006
+k         0006         main      0065
+msg       0084         n         0008
+ra1       007A         ra2       0031
+ra3       0052         retVal    000A
+then      0015         y1        0002
+y2        0000         
+--------------------------------------

@@ -1,0 +1,61 @@
+-------------------------------------------------------------------------------
+      Object
+Addr  code   Symbol   Mnemon  Operand       Comment
+-------------------------------------------------------------------------------
+             ;File: fig0621.pep
+             ;Computer Systems, Fourth edition
+             ;Figure 6.21
+             ;
+0000  04002B          BR      main          
+0003  0000   numPts:  .BLOCK  2             ;global variable #2d
+0005  0000   value:   .BLOCK  2             ;global variable #2d
+0007  0000   j:       .BLOCK  2             ;global variable #2d
+             ;
+             ;******* void printBar (int n)
+             n:       .EQUATE 4             ;formal parameter #2d
+             k:       .EQUATE 0             ;local variable #2d
+0009  680002 printBar:SUBSP   2,i           ;allocate #k
+000C  C00001          LDA     1,i           ;for (k = 1
+000F  E30000          STA     k,s           
+0012  B30004 for1:    CPA     n,s           ;k <= n
+0015  100027          BRGT    endFor1       
+0018  50002A          CHARO   '*',i         ;   cout << '*'
+001B  C30000          LDA     k,s           ;k++)
+001E  700001          ADDA    1,i           
+0021  E30000          STA     k,s           
+0024  040012          BR      for1          
+0027  50000A endFor1: CHARO   '\n',i        ;cout << endl
+002A  5A              RET2                  ;deallocate #k, pop retAddr
+             ;
+             ;******* main ()
+002B  310003 main:    DECI    numPts,d      ;cin >> numPts
+002E  C00001          LDA     1,i           ;for (j = 1
+0031  E10007          STA     j,d           
+0034  B10003 for2:    CPA     numPts,d      ;j <= numPts
+0037  100058          BRGT    endFor2       
+003A  310005          DECI    value,d       ;   cin >> value
+003D  C10005          LDA     value,d       ;   call by value
+0040  E3FFFE          STA     -2,s          
+0043  680002          SUBSP   2,i           ;   push #n
+0046  160009          CALL    printBar      ;   push retAddr
+0049  600002          ADDSP   2,i           ;   pop #n
+004C  C10007          LDA     j,d           ;j++)
+004F  700001          ADDA    1,i           
+0052  E10007          STA     j,d           
+0055  040034          BR      for2          
+0058  00     endFor2: STOP                  
+0059                  .END                  
+-------------------------------------------------------------------------------
+
+
+Symbol table
+--------------------------------------
+Symbol    Value        Symbol    Value
+--------------------------------------
+endFor1   0027         endFor2   0058
+for1      0012         for2      0034
+j         0007         k         0000
+main      002B         n         0004
+numPts    0003         printBar  0009
+value     0005         
+--------------------------------------
