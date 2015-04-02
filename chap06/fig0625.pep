@@ -47,9 +47,9 @@ endIf:   RET4               ;deallocate #y2 #y1, pop retAddr
 ;
 ;******* main ()
 main:    STRO    msg,d      ;cout << "binCoeff (3, 1) = "
-         LDA     5,i        ;push 3
+         LDA     3,i        ;push 3
          STA     -4,s
-         LDA     3,i        ;push 1
+         LDA     1,i        ;push 1
          STA     -6,s
          SUBSP   6,i        ;push #retVal #n #k
          CALL    binCoeff   ;binomCoeff (3, 1)
@@ -57,5 +57,5 @@ ra1:     ADDSP   6,i        ;pop #k #n #retVal
          DECO    -2,s       ;<< binCoeff (3, 1)
          CHARO   '\n',i     ;cout << endl
          STOP
-msg:     .ASCII  "binCoeff (5, 3) = \x00"
+msg:     .ASCII  "binCoeff (3, 1) = \x00"
          .END   

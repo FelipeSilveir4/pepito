@@ -3,7 +3,7 @@ This is the README file from the package Pep8Term.zip
 The package contains the C++ source of the command-line
 terminal version of the system described in "Computer Systems",
 Fourth edition, J. Stanley Warford, Jones and Bartlett, Publishers,
-2009.  ISBN 0-7637-3239-7
+2010.  ISBN 978-0-7637-7144-7
 
 Released under the GNU General Public License without warrenty
 as described in http://www.gnu.org/copyleft/gpl.html
@@ -19,11 +19,18 @@ batch jobs can be scripted with Unix scripting languages. This
 is an ideal way to test and print large numbers of student
 homework assignments.
 
+Version
+-------
+Pep8Term, version 8.1.0
+
 Installation
 ------------
 A makefile is included for one-step installation with the make
-command. The makefile consists of two C++ compile commands, one
-for the assembler and one for the simulator.
+command. The makefile consists of three C++ compile commands, one
+for the assembler, one for the simulator, and one for a utility
+that strips the <CR> character from DOS files, which use <CR><LF>
+at the end of each line, to make the source files compatible
+with the <LF> terminated lines of Unix/Linux/OS X.
 
 Files
 -----
@@ -35,7 +42,7 @@ This file of general information.
 
 asem8.cpp
 The C++ source file for the Pep/8 assembler.
-After executing the make command, the assebler executable is placed
+After executing the make command, the assembler executable is placed
 in a file named asem8.
 
 pep8.cpp
@@ -75,6 +82,15 @@ by editing this file, they can use their new mnemonics in their assembly
 language programs and can see the mnemonics displayed in the debugging
 facilities of the simulator. Problems 8.26 - 8.33 in the textbook
 are all problems to implement new instructions via trap handlers.
+
+stripCR.cpp
+The source file that strips the <CR> character from DOS files, which
+use <CR><LF> at the end of each line, to make the source files compatible
+with the <LF> terminated lines of Unix/Linux/OS X. This utility takes a
+stream of characters from the standard input and produces an output
+stream of characters to the standard output. You should run DOS files
+through this utility or its equivalent before using asem8, as the Pep/8
+assembler assumes <LF> terminated lines.
 
 chap05
 A directory containing all the programs from Chapter 5 of the textbook.

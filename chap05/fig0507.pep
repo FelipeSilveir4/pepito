@@ -9,7 +9,7 @@ STBYTEA 0x0010,d   ;Store the character
 CHARO   0x0010,d   ;Output the character
 STOP  
 .BLOCK  1          ;Character to output
-.WORD   10          ;Decimal 5
-.WORD   28         ;Decimal 3
+.WORD   5          ;Decimal 5
+.WORD   3          ;Decimal 3
 .WORD   0x0030     ;Mask for ASCII char
 .END   
