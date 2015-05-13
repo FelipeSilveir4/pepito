@@ -2055,6 +2055,9 @@ void LoaderCommand()
         cout << "Could not open object file " << FileName << endl;
     }
 
+    chariInputStream.close();
+    chariInputStream.clear();
+
     cout << "Enter 2 object file name (do not include .pepo): ";
     cin.getline(FileName2, FILE_NAME_LENGTH);
     int iTemp2 = cin.gcount() - 1;
@@ -2081,12 +2084,10 @@ void LoaderCommand()
     }
     else
     {
-        cout << "Could not open object file " << FileName << endl;
+        cout << "Could not open object file " << FileName2 << endl;
     }
 
 
-    chariInputStream.close();
-    chariInputStream.clear();
     chariInputStream2.close();
     chariInputStream2.clear();
 }
