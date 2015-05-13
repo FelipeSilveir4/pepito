@@ -2057,13 +2057,13 @@ void LoaderCommand()
 
     cout << "Enter 2 object file name (do not include .pepo): ";
     cin.getline(FileName2, FILE_NAME_LENGTH);
-    int iTemp = cin.gcount() - 1;
-    FileName[iTemp++] = '.';
-    FileName[iTemp++] = 'p';
-    FileName[iTemp++] = 'e';
-    FileName[iTemp++] = 'p';
-    FileName[iTemp++] = 'o';
-    FileName[iTemp] = '\0';
+    int iTemp2 = cin.gcount() - 1;
+    FileName[iTemp2++] = '.';
+    FileName[iTemp2++] = 'p';
+    FileName[iTemp2++] = 'e';
+    FileName[iTemp2++] = 'p';
+    FileName[iTemp2++] = 'o';
+    FileName[iTemp2] = '\0';
     chariInputStream2.open(FileName2);
 
      if (chariInputStream2.is_open())
