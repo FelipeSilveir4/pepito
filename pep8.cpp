@@ -185,6 +185,7 @@ int nValue;                 // n values
 // Input/Output
 ifstream trapFile;
 ifstream chariInputStream;
+ifstream chariInputStream2;
 ofstream charoOutputStream;
 bool bKeyboardInput;       // for program application, used by CHARI
 bool bScreenOutput;        // for program application, used by CHARO
@@ -2016,6 +2017,7 @@ void StartExecution ()
 void LoaderCommand()
 {
     char FileName[FILE_NAME_LENGTH];
+    char FileName2[FILE_NAME_LENGTH];
    
     if (!bKeyboardInput)
     {
@@ -2034,7 +2036,17 @@ void LoaderCommand()
     FileName[iTemp++] = 'o';
     FileName[iTemp] = '\0';
     chariInputStream.open(FileName);
-    if (chariInputStream.is_open())
+    cout << "Enter object file name (do not include .pepo): ";
+    cin.getline(FileName2, FILE_NAME_LENGTH);
+    int iTemp = cin.gcount() - 1;
+    FileName[iTemp++] = '.';
+    FileName[iTemp++] = 'p';
+    FileName[iTemp++] = 'e';
+    FileName[iTemp++] = 'p';
+    FileName[iTemp++] = 'o';
+    FileName[iTemp] = '\0';
+    chariInputStream2.open(FileName2);
+    if (chariInputStream.is_open() && chariInputStream2.is_open())
     {
         cout << "Object file is " << FileName << endl;
         bMachineReset = true;
