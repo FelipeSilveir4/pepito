@@ -2036,17 +2036,8 @@ void LoaderCommand()
     FileName[iTemp++] = 'o';
     FileName[iTemp] = '\0';
     chariInputStream.open(FileName);
-    cout << "Enter object file name (do not include .pepo): ";
-    cin.getline(FileName2, FILE_NAME_LENGTH);
-    int iTemp = cin.gcount() - 1;
-    FileName[iTemp++] = '.';
-    FileName[iTemp++] = 'p';
-    FileName[iTemp++] = 'e';
-    FileName[iTemp++] = 'p';
-    FileName[iTemp++] = 'o';
-    FileName[iTemp] = '\0';
-    chariInputStream2.open(FileName2);
-    if (chariInputStream.is_open() && chariInputStream2.is_open())
+
+    if (chariInputStream.is_open())
     {
         cout << "Object file is " << FileName << endl;
         bMachineReset = true;
@@ -2063,8 +2054,41 @@ void LoaderCommand()
     {
         cout << "Could not open object file " << FileName << endl;
     }
+
+    cout << "Enter 2 object file name (do not include .pepo): ";
+    cin.getline(FileName2, FILE_NAME_LENGTH);
+    int iTemp = cin.gcount() - 1;
+    FileName[iTemp++] = '.';
+    FileName[iTemp++] = 'p';
+    FileName[iTemp++] = 'e';
+    FileName[iTemp++] = 'p';
+    FileName[iTemp++] = 'o';
+    FileName[iTemp] = '\0';
+    chariInputStream2.open(FileName2);
+
+     if (chariInputStream2.is_open())
+    {
+        cout << "Object file is " << FileName2 << endl;
+        bMachineReset = true;
+        bBufferIsEmpty = true;
+        bLoading = true;
+        sR_StackPointer.iHigh = iMemory[SYSTEM_SP];
+        sR_StackPointer.iLow = iMemory[SYSTEM_SP + 1];
+        sR_ProgramCounter.iHigh = iMemory[LOADER_PC];
+        sR_ProgramCounter.iLow = iMemory[LOADER_PC + 1];
+        StartExecution ();
+        bLoading = false;
+    }
+    else
+    {
+        cout << "Could not open object file " << FileName << endl;
+    }
+
+
     chariInputStream.close();
     chariInputStream.clear();
+    chariInputStream2.close();
+    chariInputStream2.clear();
 }
 
 void ExecuteCommand()
