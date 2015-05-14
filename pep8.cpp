@@ -165,6 +165,7 @@ struct sUnimplementedMnemonNode{
 
 //**** Global Variables
 char cHexTable[16];
+char charMenuOption;
 eTraceMd eTraceMode;
 int iMemory[MEMORY_SIZE];
 int iRomStartAddr;
@@ -193,6 +194,7 @@ bool bBufferIsEmpty;
 char cInFileName[FILE_NAME_LENGTH];
 char cOutFileName[FILE_NAME_LENGTH];
 int numTerminalLines;
+int zoeira= 0;
 
 //**** Pep/8 CPU registers
 sRegisterType sR_Accumulator, sR_IndexRegister, sR_StackPointer, sR_ProgramCounter; // 16 bits
@@ -1909,8 +1911,19 @@ void FetchIncrPC()
 
 void Execute (bool& bHalt)
 {
+	cout << "Command:" << instr_SpecToMnemon(sIR_InstrRegister.iInstr_Spec) << endl;
     switch (instr_SpecToMnemon(sIR_InstrRegister.iInstr_Spec)) {
-    case eM_STOP: SimSTOP(bHalt); break;
+    case eM_STOP:
+    if(zoeira==0){
+    	zoeira++;
+    }else{
+    	SimSTOP(bHalt);
+    	zoeira = 0;
+    }
+    
+    
+    break;
+
     case eM_RETTR: SimRETTR(); break;
     case eM_MOVSPA: SimMOVSPA (bHalt); break;
     case eM_MOVFLGA: SimMOVFLGA (bHalt); break;
@@ -2003,6 +2016,24 @@ void StartExecution ()
             }
         }
         while (!Halt);
+
+        if(charMenuOption == 'X' || charMenuOption == 'L' ){
+         //**** The von Neumann execution cycle
+        
+        Halt = false;
+        do
+        {
+            TraceAddr = sR_ProgramCounter;
+            FetchIncrPC();
+            Execute (Halt);
+            if (eTraceMode != eT_TR_OFF)
+            {
+                Trace (TraceAddr, iLineCount, Halt);
+            }
+        }
+        while (!Halt);
+    }
+
         if (eTraceMode != eT_TR_OFF)
         {
             PrintLine (cout);
@@ -2026,7 +2057,7 @@ void LoaderCommand()
         chariInputStream.close();
         chariInputStream.clear();
     }
-    cout << "Enter object file name (do not include .pepo): ";
+     cout << "Enter object file name (do not include .pepo): ";
     cin.getline(FileName, FILE_NAME_LENGTH);
     int iTemp = cin.gcount() - 1;
     FileName[iTemp++] = '.';
@@ -2036,6 +2067,14 @@ void LoaderCommand()
     FileName[iTemp++] = 'o';
     FileName[iTemp] = '\0';
     chariInputStream.open(FileName);
+    while(!inFile.eof()) 
+	{ 
+//Get input 
+inFile >> input;
+
+//Print input 
+std::cout << input; 
+} 
 
     if (chariInputStream.is_open())
     {
@@ -2056,20 +2095,20 @@ void LoaderCommand()
     }
 
     chariInputStream.close();
-    chariInputStream.clear();
+    chariInputStream.clear(); 
 
     cout << "Enter 2 object file name (do not include .pepo): ";
     cin.getline(FileName2, FILE_NAME_LENGTH);
     int iTemp2 = cin.gcount() - 1;
-    FileName[iTemp2++] = '.';
-    FileName[iTemp2++] = 'p';
-    FileName[iTemp2++] = 'e';
-    FileName[iTemp2++] = 'p';
-    FileName[iTemp2++] = 'o';
-    FileName[iTemp2] = '\0';
-    chariInputStream2.open(FileName2);
+    FileName2[iTemp2++] = '.';
+    FileName2[iTemp2++] = 'p';
+    FileName2[iTemp2++] = 'e';
+    FileName2[iTemp2++] = 'p';
+    FileName2[iTemp2++] = 'o';
+    FileName2[iTemp2] = '\0';
+    chariInputStream.open(FileName2);
 
-     if (chariInputStream2.is_open())
+     if (chariInputStream.is_open())
     {
         cout << "Object file is " << FileName2 << endl;
         bMachineReset = true;
@@ -2077,8 +2116,8 @@ void LoaderCommand()
         bLoading = true;
         sR_StackPointer.iHigh = iMemory[SYSTEM_SP];
         sR_StackPointer.iLow = iMemory[SYSTEM_SP + 1];
-        sR_ProgramCounter.iHigh = iMemory[LOADER_PC];
-        sR_ProgramCounter.iLow = iMemory[LOADER_PC + 1];
+        //sR_ProgramCounter.iHigh = iMemory[LOADER_PC];
+        //sR_ProgramCounter.iLow = iMemory[LOADER_PC + 1];
         StartExecution ();
         bLoading = false;
     }
@@ -2088,8 +2127,9 @@ void LoaderCommand()
     }
 
 
-    chariInputStream2.close();
-    chariInputStream2.clear();
+    chariInputStream.close();
+    chariInputStream.clear();
+    
 }
 
 void ExecuteCommand()
@@ -2415,6 +2455,7 @@ void MainPrompt()
         cout << "(l)oad  e(x)ecute  (d)ump  (t)race  (i)nput  (o)utput  (q)uit: ";
         cin.getline(cCommand, LINE_LENGTH);
         ch = toupper(cCommand[0]);
+        charMenuOption = toupper(cCommand[0]);
         if (ch == 'L' || ch == 'X' || ch == 'D' || ch == 'T'
             || ch == 'I' || ch == 'O' || ch == 'Q')
         {
